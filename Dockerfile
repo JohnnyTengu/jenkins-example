@@ -7,8 +7,8 @@ WORKDIR /app
 # Копируем исходный код в контейнер
 COPY . .
 
-# Сборка приложения
-RUN go mod init hello && go mod tidy && go build -o hello .
+# Сборка приложения с отключением CGO
+RUN CGO_ENABLED=0 GOOS=linux go build -o hello .
 
 # Второй этап - создание легковесного контейнера
 FROM alpine:latest
