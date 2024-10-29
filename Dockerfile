@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Сборка приложения с отключением CGO
-RUN GOOS=linux go build -o hello .
+RUN go mod init hello && go mod tidy && go build -o hello .
 
 # Открываем порт 8080
 EXPOSE 8080
