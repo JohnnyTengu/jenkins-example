@@ -1,5 +1,5 @@
 # Первый этап - сборка приложения
-FROM golang:1.20 AS builder
+FROM golang:1.20-alpine as builder
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
@@ -8,10 +8,14 @@ WORKDIR /app
 COPY . .
 
 # Сборка приложения с отключением CGO
-RUN go mod init hello && go mod tidy && go build -o hello .
+RUN go mod init hello && go mod tidy && go mod download && go build -o hello .
+
+FROM alpine:3
+
+COPY --from=builder hello /bin/hello
 
 # Открываем порт 8080
 EXPOSE 8080
 
 # Запуск приложения
-CMD ["/hello"]
+CMD ["/bin/hello"]
