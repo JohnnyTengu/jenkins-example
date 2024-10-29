@@ -2,13 +2,13 @@
 FROM golang:1.20-alpine as builder
 
 # Устанавливаем рабочую директорию
-WORKDIR /app
+WORKDIR /build
 
 # Копируем исходный код в контейнер
 COPY . .
 
 # Сборка приложения с отключением CGO
-RUN go mod init hello && go mod tidy && go mod download && go build -o hello .
+RUN go mod init hello && go mod tidy && go mod download && go build -o /hello main.go
 
 FROM alpine:3
 
